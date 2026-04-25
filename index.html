@@ -5,134 +5,454 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dinushka Silva — Python Developer & QA Automator</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   :root {
-    --bg:#0A0A0A; --bg2:#111; --bg3:#1A1A1A; --card:#141414;
-    --border:rgba(255,255,255,0.12); --borderw:rgba(255,255,255,0.06);
-    --text:#F0F0F0; --muted:#666; --white:#fff;
-    --tag-bg:rgba(255,255,255,0.06); --tag:#AAA;
+    --bg:       #07070f;
+    --bg2:      #0e0e1a;
+    --bg3:      #14141f;
+    --card:     #0e0e1a;
+    --border:   rgba(255,255,255,0.07);
+    --border2:  rgba(255,255,255,0.14);
+    --glow:     rgba(120,100,255,0.15);
+    --accent:   #7c6fff;
+    --accent2:  #a78bfa;
+    --pink:     #f472b6;
+    --cyan:     #22d3ee;
+    --green:    #4ade80;
+    --text:     #ededf5;
+    --muted:    #6b6b80;
+    --dim:      #3a3a50;
+    --tag-bg:   rgba(124,111,255,0.1);
+    --tag-col:  #a78bfa;
   }
-  html { scroll-behavior:smooth; }
-  body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; font-size:16px; }
-  a { color:inherit; text-decoration:none; }
 
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; opacity: 0.4;
+  }
+
+  /* ── GRADIENT ORBS ── */
+  .orb {
+    position: fixed; border-radius: 50%;
+    filter: blur(80px); pointer-events: none; z-index: 0;
+  }
+  .orb1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(124,111,255,0.12) 0%, transparent 70%); top: -100px; right: -100px; }
+  .orb2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(244,114,182,0.08) 0%, transparent 70%); bottom: 20%; left: -100px; }
+  .orb3 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(34,211,238,0.06) 0%, transparent 70%); top: 60%; right: 10%; }
+
+  /* ── NAV ── */
   nav {
-    position:fixed; top:0; left:0; right:0; z-index:100;
-    background:rgba(10,10,10,0.93); backdrop-filter:blur(16px);
-    border-bottom:1px solid var(--border);
-    height:62px; display:flex; align-items:center;
-    padding:0 6%; justify-content:space-between;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 0 6%;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
   }
-  .logo { font-weight:800; font-size:16px; color:var(--white); letter-spacing:-0.3px; }
-  .logo span { color:var(--muted); font-weight:400; }
-  .nav-links { display:flex; gap:32px; }
-  .nav-links a { font-size:13px; color:var(--muted); transition:color .2s; }
-  .nav-links a:hover { color:var(--white); }
-
-  .wrap { max-width:1060px; margin:0 auto; padding:0 6%; }
-
-  /* HERO */
-  .hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding-top:62px; border-bottom:1px solid var(--border); }
-  .hero-inner { max-width:1060px; margin:0 auto; padding:0 6%; }
-  .eyebrow { display:flex; align-items:center; gap:10px; margin-bottom:32px; }
-  .dot { width:7px; height:7px; border-radius:50%; background:#fff; animation:pulse 2s infinite; }
-  @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(255,255,255,.4)} 70%{box-shadow:0 0 0 8px rgba(255,255,255,0)} 100%{box-shadow:0 0 0 0 rgba(255,255,255,0)} }
-  .eyebrow span { font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--muted); font-weight:500; }
-  .hero h1 { font-size:clamp(44px,8vw,90px); font-weight:900; letter-spacing:-3px; line-height:.95; color:var(--white); margin-bottom:28px; }
-  .hero h1 em { font-style:normal; color:var(--muted); font-weight:300; font-size:clamp(24px,3.5vw,46px); letter-spacing:-1px; display:block; margin-top:10px; }
-  .hero-desc { max-width:540px; font-size:16px; color:var(--muted); margin-bottom:44px; line-height:1.8; }
-  .hero-desc strong { color:var(--text); }
-  .actions { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:72px; }
-  .btn { padding:12px 24px; border-radius:7px; font-size:14px; font-weight:600; cursor:pointer; transition:all .18s; border:none; display:inline-flex; align-items:center; gap:8px; }
-  .btn-w { background:var(--white); color:#000; }
-  .btn-w:hover { background:#ddd; transform:translateY(-1px); }
-  .btn-o { background:transparent; color:var(--text); border:1px solid var(--border); }
-  .btn-o:hover { border-color:rgba(255,255,255,.35); background:var(--bg3); }
-  .stats { display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--border); border-left:1px solid var(--border); }
-  .stat { padding:26px 22px; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
-  .stat-n { font-size:34px; font-weight:900; color:var(--white); letter-spacing:-1px; }
-  .stat-l { font-size:11px; color:var(--muted); margin-top:4px; letter-spacing:.5px; }
-
-  /* DIVIDER */
-  hr { border:none; border-top:1px solid var(--border); }
-
-  /* SEC HEADER */
-  section { padding:100px 0; }
-  .sec-label { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin-bottom:14px; font-weight:600; }
-  .sec-title { font-size:clamp(26px,4vw,42px); font-weight:900; letter-spacing:-1.5px; color:var(--white); line-height:1.05; margin-bottom:14px; }
-  .sec-sub { font-size:15px; color:var(--muted); max-width:460px; line-height:1.75; }
-
-  /* ABOUT */
-  .about-grid { display:grid; grid-template-columns:1.1fr .9fr; gap:56px; align-items:start; margin-top:52px; }
-  .about-text p { color:var(--muted); font-size:15px; line-height:1.85; margin-bottom:18px; }
-  .about-text p strong { color:var(--text); }
-  .about-text blockquote { border-left:2px solid var(--white); padding-left:18px; font-size:14px; color:var(--muted); line-height:1.8; font-style:italic; margin-top:24px; }
-  .info-card { border:1px solid var(--border); border-radius:10px; overflow:hidden; }
-  .info-head { padding:13px 18px; border-bottom:1px solid var(--border); font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); font-weight:600; background:var(--bg2); }
-  .info-row { display:flex; align-items:center; padding:12px 18px; border-bottom:1px solid var(--borderw); gap:12px; }
-  .info-row:last-child { border-bottom:none; }
-  .i-icon { font-size:14px; width:20px; text-align:center; flex-shrink:0; }
-  .i-key { font-size:12px; color:var(--muted); min-width:70px; }
-  .i-val { font-size:13px; color:var(--text); font-weight:500; }
-
-  /* SKILLS */
-  .skills-grid { display:grid; grid-template-columns:repeat(3,1fr); border-left:1px solid var(--border); border-top:1px solid var(--border); margin-top:48px; }
-  .skill { border-right:1px solid var(--border); border-bottom:1px solid var(--border); padding:26px 26px 22px; transition:background .2s; }
-  .skill:hover { background:var(--bg2); }
-  .s-icon { font-size:20px; margin-bottom:12px; }
-  .s-name { font-size:14px; font-weight:700; color:var(--white); margin-bottom:7px; }
-  .s-desc { font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:14px; }
-  .tags { display:flex; flex-wrap:wrap; gap:5px; }
-  .tag { font-size:11px; padding:3px 8px; border-radius:4px; background:var(--tag-bg); color:var(--tag); border:1px solid var(--border); font-weight:500; }
-
-  /* PROJECTS */
-  .proj-list { display:flex; flex-direction:column; gap:18px; margin-top:48px; }
-  .proj { border:1px solid var(--border); border-radius:10px; overflow:hidden; background:var(--card); transition:border-color .2s; }
-  .proj:hover { border-color:rgba(255,255,255,.28); }
-  .proj-top { display:flex; align-items:center; justify-content:space-between; padding:22px 26px 18px; border-bottom:1px solid var(--borderw); }
-  .proj-left { display:flex; align-items:center; gap:14px; }
-  .proj-ico { width:42px; height:42px; border-radius:9px; background:var(--bg3); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
-  .proj-name { font-size:16px; font-weight:800; color:var(--white); letter-spacing:-.4px; }
-  .proj-sub { font-size:12px; color:var(--muted); margin-top:2px; }
-  .proj-badge { font-size:11px; font-weight:600; padding:4px 11px; border-radius:4px; border:1px solid var(--border); color:var(--muted); background:var(--bg3); white-space:nowrap; }
-  .proj-body { padding:18px 26px 22px; }
-  .proj-desc { font-size:14px; color:var(--muted); line-height:1.75; margin-bottom:16px; }
-  .feat { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:var(--muted); padding:4px 0; line-height:1.5; }
-  .feat::before { content:'→'; color:var(--text); flex-shrink:0; font-size:12px; margin-top:1px; }
-  .feats { margin-bottom:18px; }
-  .proj-foot { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; padding-top:16px; border-top:1px solid var(--borderw); }
-  .gh-link { display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:var(--white); padding:8px 16px; border-radius:6px; border:1px solid var(--border); background:var(--bg3); transition:all .18s; }
-  .gh-link:hover { background:var(--white); color:#000; border-color:var(--white); }
-
-  /* CONTACT */
-  .contact-sec { border-top:1px solid var(--border); }
-  .contact-inner { padding:80px 0; }
-  .c-links { display:flex; gap:12px; flex-wrap:wrap; margin-top:36px; }
-  .c-btn { display:flex; align-items:center; gap:10px; padding:12px 20px; border-radius:7px; border:1px solid var(--border); font-size:14px; font-weight:500; color:var(--text); background:var(--card); transition:all .18s; cursor:pointer; }
-  .c-btn:hover { border-color:rgba(255,255,255,.35); background:var(--bg3); color:var(--white); }
-
-  footer { border-top:1px solid var(--border); padding:26px 6%; display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--muted); }
-  footer a { color:var(--muted); transition:color .2s; }
-  footer a:hover { color:var(--white); }
-  .foot-links { display:flex; gap:20px; }
-
-  @media(max-width:768px){
-    .stats{grid-template-columns:repeat(2,1fr)}
-    .about-grid{grid-template-columns:1fr;gap:32px}
-    .skills-grid{grid-template-columns:1fr 1fr}
-    nav .nav-links{display:none}
-    footer{flex-direction:column;gap:10px;text-align:center}
+  .nav-inner {
+    position: absolute; inset: 0;
+    background: rgba(7,7,15,0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--border);
   }
-  @media(max-width:480px){
-    .skills-grid{grid-template-columns:1fr}
-    .stats{grid-template-columns:1fr 1fr}
+  .nav-logo {
+    position: relative; z-index: 1;
+    font-weight: 800; font-size: 16px; letter-spacing: -0.5px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+  .nav-links {
+    position: relative; z-index: 1;
+    display: flex; gap: 6px;
+  }
+  .nav-links a {
+    font-size: 13px; font-weight: 500; color: var(--muted);
+    padding: 6px 14px; border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+
+  /* ── LAYOUT ── */
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 6%; position: relative; z-index: 1; }
+  section { padding: 120px 0; }
+  hr.sec-div { border: none; border-top: 1px solid var(--border); position: relative; z-index: 1; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 60px;
+    align-items: center;
+    padding-top: 64px;
+  }
+
+  .hero-left {}
+
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(74,222,128,0.08);
+    border: 1px solid rgba(74,222,128,0.2);
+    color: var(--green);
+    font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+    padding: 6px 14px; border-radius: 999px;
+    margin-bottom: 32px;
+  }
+  .status-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  .hero h1 {
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 900;
+    letter-spacing: -2.5px;
+    line-height: 1.0;
+    margin-bottom: 8px;
+  }
+  .hero h1 .firstname { color: var(--text); }
+  .hero h1 .lastname {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--pink) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-role {
+    font-size: 18px; font-weight: 400; color: var(--muted);
+    margin-bottom: 24px; letter-spacing: -0.3px;
+  }
+  .hero-role span { color: var(--accent2); font-weight: 600; }
+
+  .hero-desc {
+    font-size: 15px; color: var(--muted); max-width: 480px;
+    margin-bottom: 36px; line-height: 1.8;
+  }
+  .hero-desc strong { color: var(--text); font-weight: 600; }
+
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px; }
+  .pill {
+    font-size: 12px; font-weight: 500;
+    padding: 6px 14px; border-radius: 999px;
+    border: 1px solid var(--border2);
+    color: var(--muted); background: var(--bg2);
+    transition: all 0.2s;
+  }
+  .pill:hover { border-color: var(--accent); color: var(--accent2); background: var(--tag-bg); }
+
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 24px; border-radius: 12px;
+    font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    border: none; letter-spacing: 0.2px;
+  }
+  .btn-accent {
+    background: linear-gradient(135deg, var(--accent), #6d28d9);
+    color: #fff;
+    box-shadow: 0 0 24px rgba(124,111,255,0.3);
+  }
+  .btn-accent:hover { transform: translateY(-1px); box-shadow: 0 0 36px rgba(124,111,255,0.45); }
+  .btn-ghost {
+    background: var(--bg3); color: var(--text);
+    border: 1px solid var(--border2);
+  }
+  .btn-ghost:hover { border-color: var(--accent); background: var(--tag-bg); }
+
+  /* ── PHOTO ── */
+  .hero-photo {
+    flex-shrink: 0;
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+  }
+  .photo-frame {
+    position: relative;
+    width: 240px; height: 280px;
+  }
+  .photo-glow {
+    position: absolute; inset: -20px;
+    background: radial-gradient(circle, rgba(124,111,255,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: glow-pulse 3s ease-in-out infinite;
+  }
+  @keyframes glow-pulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
+  .photo-border {
+    position: absolute; inset: -2px; border-radius: 28px;
+    background: linear-gradient(135deg, var(--accent), var(--pink), var(--cyan));
+    padding: 2px;
+  }
+  .photo-inner {
+    width: 100%; height: 100%;
+    border-radius: 27px;
+    background: var(--bg3);
+    border: 3px solid var(--bg);
+    overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px;
+    position: relative; z-index: 1;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .photo-inner:hover { background: var(--bg2); }
+  .photo-inner img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: 24px;
+    display: none;
+  }
+  .photo-placeholder {
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    padding: 20px;
+  }
+  .photo-icon { font-size: 40px; }
+  .photo-text { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.5; font-weight: 500; }
+  .photo-hint { font-size: 10px; color: var(--dim); text-align: center; }
+  .photo-upload-btn {
+    font-size: 11px; font-weight: 600;
+    padding: 6px 14px; border-radius: 8px;
+    background: var(--tag-bg); color: var(--accent2);
+    border: 1px solid rgba(124,111,255,0.3);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .photo-upload-btn:hover { background: rgba(124,111,255,0.2); }
+
+  .hero-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 12px; margin-top: 72px; width: 100%;
+  }
+  .stat-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 16px; padding: 20px 16px; text-align: center;
+    transition: border-color 0.2s;
+  }
+  .stat-card:hover { border-color: var(--border2); }
+  .stat-n { font-size: 28px; font-weight: 900; letter-spacing: -1px;
+    background: linear-gradient(135deg, var(--text), var(--muted));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .stat-l { font-size: 11px; color: var(--muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* ── SECTION HEADER ── */
+  .sh { margin-bottom: 56px; }
+  .kicker {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent2);
+    margin-bottom: 16px;
+  }
+  .kicker::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
+  .sh h2 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 900; letter-spacing: -1.5px; line-height: 1.05;
+  }
+  .sh p { font-size: 15px; color: var(--muted); margin-top: 12px; max-width: 460px; line-height: 1.8; }
+
+  /* ── ABOUT ── */
+  .about-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 56px; align-items: start; }
+  .about-p { color: var(--muted); margin-bottom: 18px; font-size: 15px; line-height: 1.85; }
+  .about-p strong { color: var(--text); font-weight: 600; }
+  .about-quote {
+    margin-top: 28px; padding: 20px 24px;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    font-size: 14px; color: var(--muted); font-style: italic; line-height: 1.8;
+  }
+  .info-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 20px; overflow: hidden;
+  }
+  .ic-head {
+    padding: 18px 22px; border-bottom: 1px solid var(--border);
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--dim);
+  }
+  .ic-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 13px 22px; border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .ic-row:last-child { border-bottom: none; }
+  .ic-row:hover { background: rgba(255,255,255,0.02); }
+  .ico { width: 34px; height: 34px; border-radius: 10px;
+    background: var(--tag-bg); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0; }
+  .ic-lbl { font-size: 10px; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; }
+  .ic-val { font-size: 13px; font-weight: 600; margin-top: 1px; }
+
+  /* ── SKILLS ── */
+  .sk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+  .sk-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 18px; padding: 22px;
+    transition: all 0.25s; position: relative; overflow: hidden;
+  }
+  .sk-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--pink));
+    opacity: 0; transition: opacity 0.25s;
+  }
+  .sk-card:hover { border-color: var(--border2); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+  .sk-card:hover::before { opacity: 1; }
+  .sk-ico { font-size: 24px; margin-bottom: 12px; }
+  .sk-name { font-size: 14px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.3px; }
+  .sk-desc { font-size: 12px; color: var(--muted); margin-bottom: 14px; line-height: 1.6; }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag {
+    font-size: 10px; font-weight: 600; padding: 3px 9px;
+    border-radius: 999px; background: var(--tag-bg);
+    color: var(--tag-col); border: 1px solid rgba(124,111,255,0.15);
+  }
+
+  /* ── PROJECTS ── */
+  .plist { display: flex; flex-direction: column; gap: 16px; }
+  .pc {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 20px; padding: 28px 30px;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 20px; align-items: start;
+    transition: all 0.25s; position: relative; overflow: hidden;
+  }
+  .pc::after {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(600px at var(--mx, 50%) var(--my, 50%), rgba(124,111,255,0.04), transparent 40%);
+    opacity: 0; transition: opacity 0.3s; pointer-events: none;
+  }
+  .pc:hover { border-color: var(--border2); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+  .pc:hover::after { opacity: 1; }
+  .pc.feat { border-color: rgba(124,111,255,0.2); }
+  .pt { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+  .p-ico {
+    width: 44px; height: 44px; border-radius: 14px;
+    background: var(--tag-bg); border: 1px solid rgba(124,111,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .p-title { font-size: 17px; font-weight: 800; letter-spacing: -0.5px; }
+  .p-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .p-desc { font-size: 14px; color: var(--muted); margin-bottom: 14px; line-height: 1.75; max-width: 600px; }
+  .p-feats { margin-bottom: 14px; }
+  .pf {
+    font-size: 13px; color: var(--muted); padding: 3px 0;
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .pf::before { content: '▸'; color: var(--accent); flex-shrink: 0; font-size: 11px; margin-top: 2px; }
+  .p-stack { display: flex; flex-wrap: wrap; gap: 6px; }
+  .p-side { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; flex-shrink: 0; }
+  .badge {
+    font-size: 10px; font-weight: 700; padding: 4px 12px;
+    border-radius: 999px; border: 1px solid var(--border2);
+    color: var(--muted); letter-spacing: 1px; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .badge.green { border-color: rgba(74,222,128,0.3); color: var(--green); background: rgba(74,222,128,0.06); }
+  .badge.purple { border-color: rgba(124,111,255,0.3); color: var(--accent2); background: var(--tag-bg); }
+  .gh-btn {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 12px; font-weight: 600; padding: 9px 16px;
+    border-radius: 10px; border: 1px solid var(--border2);
+    background: var(--bg3); color: var(--muted);
+    transition: all 0.2s; cursor: pointer; white-space: nowrap;
+  }
+  .gh-btn:hover { border-color: var(--accent); color: var(--accent2); background: var(--tag-bg); }
+
+  /* ── CONTACT ── */
+  .contact-wrap {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 28px; padding: 64px 52px;
+    text-align: center; max-width: 640px; margin: 0 auto;
+    position: relative; overflow: hidden;
+  }
+  .contact-wrap::before {
+    content: ''; position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(124,111,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .contact-wrap h3 {
+    font-size: 40px; font-weight: 900; letter-spacing: -1.5px;
+    margin-bottom: 14px; position: relative;
+  }
+  .contact-wrap p { color: var(--muted); font-size: 16px; margin-bottom: 40px; line-height: 1.7; position: relative; }
+  .clinks { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; position: relative; }
+  .cbtn {
+    display: flex; align-items: center; gap: 9px;
+    padding: 13px 22px; border-radius: 12px;
+    font-size: 13px; font-weight: 700;
+    border: 1px solid var(--border2);
+    background: var(--bg3); color: var(--text);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .cbtn:hover { border-color: var(--accent); background: var(--tag-bg); color: var(--accent2); transform: translateY(-1px); }
+  .cbtn.primary { background: linear-gradient(135deg, var(--accent), #6d28d9); border-color: transparent; color: #fff; box-shadow: 0 0 20px rgba(124,111,255,0.3); }
+  .cbtn.primary:hover { box-shadow: 0 0 32px rgba(124,111,255,0.5); color: #fff; background: linear-gradient(135deg, var(--accent), #6d28d9); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; padding: 36px 6%;
+    border-top: 1px solid var(--border);
+    color: var(--dim); font-size: 12px;
+    letter-spacing: 0.5px; position: relative; z-index: 1;
+  }
+  footer strong { color: var(--muted); }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width: 860px) {
+    .hero { grid-template-columns: 1fr; gap: 40px; }
+    .hero-photo { order: -1; }
+    .photo-frame { width: 180px; height: 210px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .hero-stats { grid-template-columns: repeat(3,1fr); }
+    .nav-links { display: none; }
+    .pc { grid-template-columns: 1fr; }
+    .p-side { flex-direction: row; align-items: flex-start; }
+    .contact-wrap { padding: 40px 24px; }
   }
 </style>
 </head>
 <body>
 
+<!-- AMBIENT ORBS -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- NAV -->
 <nav>
-  <div class="logo">Dinushka <span>Silva</span></div>
+  <div class="nav-inner"></div>
+  <div class="nav-logo">
+    <div class="nav-dot"></div>
+    Dinushka Silva
+  </div>
   <div class="nav-links">
     <a href="#about">About</a>
     <a href="#skills">Skills</a>
@@ -142,220 +462,275 @@
 </nav>
 
 <!-- HERO -->
-<div class="hero">
-  <div class="hero-inner">
-    <div class="eyebrow"><div class="dot"></div><span>Available for opportunities</span></div>
-    <h1>S. Dinushka<br>L.W. Silva<em>Python Developer &amp; QA Automator</em></h1>
-    <p class="hero-desc">I build <strong>AI-powered tools</strong>, <strong>automation systems</strong>, and <strong>diagnostic software</strong> that solve real problems. From audio intelligence to escalation reports — I turn chaos into clean, working software.</p>
-    <div class="actions">
-      <a href="#projects" class="btn btn-w">View Projects</a>
-      <a href="#contact" class="btn btn-o">Get In Touch</a>
-      <a href="https://github.com/Dinushka110797" target="_blank" class="btn btn-o">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-        GitHub
-      </a>
+<div class="wrap">
+<section class="hero">
+  <div class="hero-left">
+    <div class="status-pill"><div class="status-dot"></div>Available for opportunities</div>
+    <h1>
+      <span class="firstname">Dinushka</span><br>
+      <span class="lastname">Silva</span>
+    </h1>
+    <div class="hero-role">Python Developer <span>&amp; QA Automator</span></div>
+    <p class="hero-desc">
+      I build <strong>AI-powered tools</strong>, <strong>automation systems</strong>, and
+      <strong>diagnostic software</strong> that solve real problems.
+      I learn by building — every project I ship solves an actual problem.
+    </p>
+    <div class="hero-pills">
+      <div class="pill">🐍 Python</div>
+      <div class="pill">🤖 QA Automation</div>
+      <div class="pill">🩺 Tech Support</div>
+      <div class="pill">🛠️ Dev Tooling</div>
+      <div class="pill">🌐 Web Scraping</div>
     </div>
-    <div class="stats">
-      <div class="stat"><div class="stat-n">6+</div><div class="stat-l">Projects Shipped</div></div>
-      <div class="stat"><div class="stat-n">AI</div><div class="stat-l">Local Inference</div></div>
-      <div class="stat"><div class="stat-n">QA</div><div class="stat-l">Test Automation</div></div>
-      <div class="stat"><div class="stat-n">🇱🇰</div><div class="stat-l">Sri Lanka</div></div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-accent">View Projects →</a>
+      <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-n">6+</div><div class="stat-l">Projects</div></div>
+      <div class="stat-card"><div class="stat-n">5+</div><div class="stat-l">Domains</div></div>
+      <div class="stat-card"><div class="stat-n">Real</div><div class="stat-l">Use Cases</div></div>
     </div>
   </div>
+
+  <!-- PHOTO SLOT -->
+  <div class="hero-photo">
+    <div class="photo-frame">
+      <div class="photo-glow"></div>
+      <div class="photo-border">
+        <div class="photo-inner" onclick="document.getElementById('photoInput').click()">
+          <img id="profilePhoto" src="" alt="Dinushka Silva">
+          <div class="photo-placeholder" id="photoPlaceholder">
+            <div class="photo-icon">🧑‍💻</div>
+            <div class="photo-text">Your Photo Here</div>
+            <div class="photo-hint">Click to upload</div>
+            <div class="photo-upload-btn">+ Upload Photo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 </div>
 
+<!-- Hidden file input -->
+<input type="file" id="photoInput" accept="image/*" style="display:none" onchange="loadPhoto(event)">
+
+<hr class="sec-div">
+
 <!-- ABOUT -->
-<hr>
+<div class="wrap">
 <section id="about">
-  <div class="wrap">
-    <div class="sec-label">About Me</div>
-    <div class="sec-title">The person behind the code</div>
-    <div class="about-grid">
-      <div class="about-text">
-        <p>I'm a hands-on <strong>Tech Support Engineer, QA Automator, and Python Developer</strong> who loves breaking systems — and fixing them smarter.</p>
-        <p>I specialize in diagnosing real-world OS &amp; hardware issues on Windows and Linux, building automation-first solutions, and writing quality assurance tools using <strong>Python, Selenium, and structured testing</strong>.</p>
-        <p>I learn by building, not memorizing — every project I create solves an actual problem faced by real users, technicians, or support teams. I don't just test software. I test systems, workflows, and assumptions.</p>
-        <blockquote>Long-term goal: become a full-stack problem solver across QA × Development × Systems × Automation — the engineer people trust when things really break.</blockquote>
-      </div>
-      <div class="info-card">
-        <div class="info-head">Quick Info</div>
-        <div class="info-row"><div class="i-icon">📍</div><div class="i-key">Location</div><div class="i-val">Sri Lanka</div></div>
-        <div class="info-row"><div class="i-icon">💻</div><div class="i-key">Primary</div><div class="i-val">Python 3</div></div>
-        <div class="info-row"><div class="i-icon">🤖</div><div class="i-key">Focus</div><div class="i-val">AI Tools &amp; QA Automation</div></div>
-        <div class="info-row"><div class="i-icon">🧪</div><div class="i-key">Testing</div><div class="i-val">Selenium, Pytest</div></div>
-        <div class="info-row"><div class="i-icon">🔍</div><div class="i-key">Support</div><div class="i-val">Windows &amp; Linux</div></div>
-        <div class="info-row"><div class="i-icon">🛠️</div><div class="i-key">Editor</div><div class="i-val">VS Code</div></div>
-        <div class="info-row"><div class="i-icon">🐙</div><div class="i-key">GitHub</div><div class="i-val">@Dinushka110797</div></div>
-        <div class="info-row"><div class="i-icon">✉️</div><div class="i-key">Email</div><div class="i-val" style="font-size:11.5px;">lakshandinushka929@gmail.com</div></div>
-      </div>
+  <div class="sh"><div class="kicker">About Me</div><h2>I break systems.<br>Then fix them smarter.</h2></div>
+  <div class="about-grid">
+    <div>
+      <p class="about-p">I'm <strong>S. Dinushka L.W. Silva</strong> — a hands-on <strong>Tech Support Engineer, QA Automator, and Python developer</strong> from Sri Lanka who loves diagnosing systems and building tools that turn chaos into clarity.</p>
+      <p class="about-p">I specialize in <strong>real-world OS and hardware diagnostics</strong> (Windows & Linux), <strong>automation-first thinking</strong>, and <strong>quality assurance</strong> using Python and Selenium. If it can be automated, I'll automate it.</p>
+      <p class="about-p">I don't just test software — I test <strong>systems, workflows, and assumptions</strong>. Every project I build solves an actual problem faced by users, technicians, or support teams.</p>
+      <div class="about-quote">"Long-term goal: become a full-stack problem solver across QA × Development × Systems × Automation — the engineer people trust when things really break."</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-head">Quick Info</div>
+      <div class="ic-row"><div class="ico">📍</div><div><div class="ic-lbl">Location</div><div class="ic-val">Sri Lanka</div></div></div>
+      <div class="ic-row"><div class="ico">💻</div><div><div class="ic-lbl">Primary Language</div><div class="ic-val">Python 3</div></div></div>
+      <div class="ic-row"><div class="ico">🎯</div><div><div class="ic-lbl">Focus</div><div class="ic-val">QA × Dev × Automation</div></div></div>
+      <div class="ic-row"><div class="ico">🩺</div><div><div class="ic-lbl">Specialty</div><div class="ic-val">Tech Support Tooling</div></div></div>
+      <div class="ic-row"><div class="ico">✉️</div><div><div class="ic-lbl">Email</div><div class="ic-val" style="font-size:11px">lakshandinushka929@gmail.com</div></div></div>
+      <div class="ic-row"><div class="ico">🐙</div><div><div class="ic-lbl">GitHub</div><div class="ic-val">@Dinushka110797</div></div></div>
     </div>
   </div>
 </section>
+</div>
+
+<hr class="sec-div">
 
 <!-- SKILLS -->
-<hr>
+<div class="wrap">
 <section id="skills">
-  <div class="wrap">
-    <div class="sec-label">Skills</div>
-    <div class="sec-title">What I work with</div>
-    <p class="sec-sub">Tools, languages, and technologies I use to build things that work.</p>
-    <div class="skills-grid">
-      <div class="skill"><div class="s-icon">🐍</div><div class="s-name">Python Development</div><div class="s-desc">Building scripts, tools, and full applications with clean, modular Python code.</div><div class="tags"><span class="tag">Python 3</span><span class="tag">OOP</span><span class="tag">CLI Tools</span><span class="tag">Automation</span></div></div>
-      <div class="skill"><div class="s-icon">🤖</div><div class="s-name">AI &amp; Machine Learning</div><div class="s-desc">Local AI inference with speech recognition and audio signal processing.</div><div class="tags"><span class="tag">Whisper</span><span class="tag">PyTorch</span><span class="tag">librosa</span><span class="tag">numpy</span></div></div>
-      <div class="skill"><div class="s-icon">🧪</div><div class="s-name">QA &amp; Test Automation</div><div class="s-desc">Writing structured tests and automating quality checks for web and desktop apps.</div><div class="tags"><span class="tag">Selenium</span><span class="tag">Pytest</span><span class="tag">Test Plans</span><span class="tag">Bug Reports</span></div></div>
-      <div class="skill"><div class="s-icon">🔍</div><div class="s-name">Tech Support &amp; Diagnostics</div><div class="s-desc">Diagnosing OS, hardware, and network issues on Windows &amp; Linux systems.</div><div class="tags"><span class="tag">Windows</span><span class="tag">Linux</span><span class="tag">PowerShell</span><span class="tag">Bash</span></div></div>
-      <div class="skill"><div class="s-icon">🌐</div><div class="s-name">Web Scraping &amp; Data</div><div class="s-desc">Extracting and structuring data from static and JS-rendered websites.</div><div class="tags"><span class="tag">BeautifulSoup</span><span class="tag">Selenium</span><span class="tag">pandas</span><span class="tag">openpyxl</span></div></div>
-      <div class="skill"><div class="s-icon">🎬</div><div class="s-name">Media &amp; Dev Tools</div><div class="s-desc">Video processing, version control, and professional developer workflow.</div><div class="tags"><span class="tag">ffmpeg</span><span class="tag">yt-dlp</span><span class="tag">Git</span><span class="tag">Django</span><span class="tag">Streamlit</span></div></div>
-    </div>
+  <div class="sh"><div class="kicker">Skills</div><h2>What I work with</h2><p>Tools and technologies across development, automation, QA, and systems.</p></div>
+  <div class="sk-grid">
+    <div class="sk-card"><div class="sk-ico">🐍</div><div class="sk-name">Python Development</div><div class="sk-desc">Modular scripts, automation tools, and full applications with clean architecture.</div><div class="tags"><span class="tag">Python 3</span><span class="tag">OOP</span><span class="tag">CLI Tools</span><span class="tag">venv</span></div></div>
+    <div class="sk-card"><div class="sk-ico">🤖</div><div class="sk-name">QA & Test Automation</div><div class="sk-desc">Structured test suites and automated QA workflows for real systems.</div><div class="tags"><span class="tag">Selenium</span><span class="tag">pytest</span><span class="tag">Test Design</span></div></div>
+    <div class="sk-card"><div class="sk-ico">🌐</div><div class="sk-name">Web Scraping</div><div class="sk-desc">Extracting data from static and JS-rendered websites reliably.</div><div class="tags"><span class="tag">BeautifulSoup</span><span class="tag">Selenium</span><span class="tag">requests</span><span class="tag">pandas</span></div></div>
+    <div class="sk-card"><div class="sk-ico">🩺</div><div class="sk-name">System Diagnostics</div><div class="sk-desc">Diagnosing OS, hardware, and driver issues on Windows and Linux.</div><div class="tags"><span class="tag">Windows</span><span class="tag">Linux</span><span class="tag">PowerShell</span><span class="tag">Bash</span></div></div>
+    <div class="sk-card"><div class="sk-ico">🧠</div><div class="sk-name">AI & ML Tools</div><div class="sk-desc">Building tools powered by local AI models for audio and language tasks.</div><div class="tags"><span class="tag">Whisper</span><span class="tag">librosa</span><span class="tag">PyTorch</span><span class="tag">numpy</span></div></div>
+    <div class="sk-card"><div class="sk-ico">🌍</div><div class="sk-name">Web Development</div><div class="sk-desc">Full-stack web apps with Python frameworks and admin panels.</div><div class="tags"><span class="tag">Django</span><span class="tag">Streamlit</span><span class="tag">HTML/CSS</span></div></div>
+    <div class="sk-card"><div class="sk-ico">🎬</div><div class="sk-name">Media Processing</div><div class="sk-desc">Video downloading, cutting, and encoding with professional tools.</div><div class="tags"><span class="tag">ffmpeg</span><span class="tag">yt-dlp</span><span class="tag">Whisper</span></div></div>
+    <div class="sk-card"><div class="sk-ico">🛠️</div><div class="sk-name">Dev Workflow</div><div class="sk-desc">Professional version control, packaging, and project structure.</div><div class="tags"><span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">VS Code</span><span class="tag">PyInstaller</span></div></div>
   </div>
 </section>
+</div>
+
+<hr class="sec-div">
 
 <!-- PROJECTS -->
-<hr>
+<div class="wrap">
 <section id="projects">
-  <div class="wrap">
-    <div class="sec-label">Projects</div>
-    <div class="sec-title">Things I've built</div>
-    <p class="sec-sub">Real projects, real code, real results. Every line written with purpose.</p>
-    <div class="proj-list">
+  <div class="sh"><div class="kicker">Projects</div><h2>Things I've built</h2><p>Real projects that solve real problems — for users, engineers, and businesses.</p></div>
+  <div class="plist">
 
-      <div class="proj">
-        <div class="proj-top">
-          <div class="proj-left"><div class="proj-ico">✂️</div><div><div class="proj-name">Clipper Maker</div><div class="proj-sub">AI-powered YouTube clip extractor</div></div></div>
-          <div class="proj-badge">AI · Streamlit · Web App</div>
+    <div class="pc feat">
+      <div>
+        <div class="pt"><div class="p-ico">✂️</div><div><div class="p-title">Clipper Maker</div><div class="p-sub">AI-powered YouTube clip extractor</div></div></div>
+        <p class="p-desc">Paste any YouTube URL and automatically extract the best 5–6 highlight moments using AI audio analysis and Whisper speech transcription. Full web interface with preview and ZIP export.</p>
+        <div class="p-feats">
+          <div class="pf">Whisper AI transcribes audio locally — no API key needed</div>
+          <div class="pf">librosa scores each segment by audio energy and speech density</div>
+          <div class="pf">ffmpeg cuts and encodes clips with frame-perfect accuracy</div>
+          <div class="pf">Streamlit web UI with live progress and bulk ZIP download</div>
         </div>
-        <div class="proj-body">
-          <p class="proj-desc">Paste any YouTube URL and automatically extract the best 5–6 highlight clips using Whisper AI transcription and librosa audio energy analysis. Full web interface with live progress, clip preview, and ZIP download.</p>
-          <div class="feats">
-            <div class="feat">Whisper AI transcribes audio locally — no API key or internet needed</div>
-            <div class="feat">librosa scores each moment by RMS energy + speech density</div>
-            <div class="feat">ffmpeg cuts and encodes clips with frame-perfect accuracy</div>
-            <div class="feat">Streamlit web UI with preview, per-clip download, and ZIP export</div>
-          </div>
-          <div class="proj-foot">
-            <div class="tags"><span class="tag">Python</span><span class="tag">Whisper</span><span class="tag">librosa</span><span class="tag">ffmpeg</span><span class="tag">Streamlit</span><span class="tag">yt-dlp</span></div>
-            <a href="https://github.com/Dinushka110797/clipper-maker" target="_blank" class="gh-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>View on GitHub</a>
-          </div>
-        </div>
+        <div class="p-stack"><span class="tag">Python</span><span class="tag">Whisper AI</span><span class="tag">librosa</span><span class="tag">ffmpeg</span><span class="tag">Streamlit</span><span class="tag">yt-dlp</span><span class="tag">PyTorch</span></div>
       </div>
-
-      <div class="proj">
-        <div class="proj-top">
-          <div class="proj-left"><div class="proj-ico">🩺</div><div><div class="proj-name">AutoDoctor</div><div class="proj-sub">Smart Tech Support Diagnostic Assistant</div></div></div>
-          <div class="proj-badge">IT Support · Diagnostics · EXE</div>
-        </div>
-        <div class="proj-body">
-          <p class="proj-desc">A Python-based diagnostic assistant for Windows &amp; Linux that helps users and L1/L2 engineers quickly identify common system issues. Built from real-world support experience. Packaged as an EXE for non-technical users.</p>
-          <div class="feats">
-            <div class="feat">WiFi, Bluetooth, Audio, Camera &amp; Mic diagnostics</div>
-            <div class="feat">RAM, Disk, GPU, Battery &amp; USB health checks</div>
-            <div class="feat">System Summary Dashboard with Rich terminal UI</div>
-            <div class="feat">Auto-generated escalation reports for helpdesk teams</div>
-            <div class="feat">Packaged as .exe — no Python required for end users</div>
-          </div>
-          <div class="proj-foot">
-            <div class="tags"><span class="tag">Python</span><span class="tag">PowerShell</span><span class="tag">Bash</span><span class="tag">Rich UI</span><span class="tag">PyInstaller</span></div>
-            <a href="https://github.com/Dinushka110797" target="_blank" class="gh-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>View on GitHub</a>
-          </div>
-        </div>
+      <div class="p-side">
+        <span class="badge purple">AI Powered</span>
+        <a href="https://github.com/Dinushka110797/clipper-maker" target="_blank" class="gh-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
       </div>
+    </div>
 
-      <div class="proj">
-        <div class="proj-top">
-          <div class="proj-left"><div class="proj-ico">🖥️</div><div><div class="proj-name">Laptop Price Scraper</div><div class="proj-sub">Freelance project for a Sri Lankan electronics retailer</div></div></div>
-          <div class="proj-badge">Freelance · Scraping · Excel</div>
+    <div class="pc feat">
+      <div>
+        <div class="pt"><div class="p-ico">🩺</div><div><div class="p-title">AutoDoctor</div><div class="p-sub">Smart Tech Support Assistant</div></div></div>
+        <p class="p-desc">A Python-based diagnostic assistant for Windows & Linux that helps users and L1/L2 engineers quickly identify and report common system issues. Designed from real-world support experience.</p>
+        <div class="p-feats">
+          <div class="pf">WiFi, Bluetooth, Audio, Camera, and Mic diagnostics</div>
+          <div class="pf">RAM, Disk, GPU, Battery, and USB health checks</div>
+          <div class="pf">Auto-generated escalation reports for L2/L3 engineers</div>
+          <div class="pf">Packaged as .EXE for non-technical end users</div>
         </div>
-        <div class="proj-body">
-          <p class="proj-desc">A Python automation tool that visits Sri Lankan electronics websites daily, extracts laptop pricing data, and delivers a clean formatted Excel report — automatically. Built as a real freelance project and packaged as a standalone EXE.</p>
-          <div class="feats">
-            <div class="feat">Scrapes name, price &amp; availability from nanotek.lk (160+ laptops) and laplink.lk (60+)</div>
-            <div class="feat">Handles both server-rendered (BeautifulSoup) and JS-rendered (Selenium) sites</div>
-            <div class="feat">Exports clean, sorted, styled Excel file ready for business use</div>
-            <div class="feat">Packaged as .exe — no Python or technical knowledge required</div>
-          </div>
-          <div class="proj-foot">
-            <div class="tags"><span class="tag">Python</span><span class="tag">Selenium</span><span class="tag">BeautifulSoup</span><span class="tag">pandas</span><span class="tag">openpyxl</span><span class="tag">PyInstaller</span></div>
-            <a href="https://github.com/Dinushka110797/Laptop-price-scraper" target="_blank" class="gh-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>View on GitHub</a>
-          </div>
-        </div>
+        <div class="p-stack"><span class="tag">Python</span><span class="tag">PowerShell</span><span class="tag">Bash</span><span class="tag">Rich</span><span class="tag">PyInstaller</span></div>
       </div>
-
-      <div class="proj">
-        <div class="proj-top">
-          <div class="proj-left"><div class="proj-ico">🛒</div><div><div class="proj-name">Gadget Kade</div><div class="proj-sub">Full-stack Django e-commerce web application</div></div></div>
-          <div class="proj-badge">Django · Full Stack · Admin Panel</div>
-        </div>
-        <div class="proj-body">
-          <p class="proj-desc">A fully functional e-commerce web application built with Python Django. Complete with product listings, user authentication, shopping cart, order management, and a full admin panel for store management.</p>
-          <div class="proj-foot">
-            <div class="tags"><span class="tag">Python</span><span class="tag">Django</span><span class="tag">SQLite</span><span class="tag">HTML/CSS</span><span class="tag">Admin Panel</span></div>
-            <a href="https://github.com/Dinushka110797/gadget-kade" target="_blank" class="gh-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>View on GitHub</a>
-          </div>
-        </div>
+      <div class="p-side">
+        <span class="badge">IT Support</span>
+        <a href="https://github.com/Dinushka110797" target="_blank" class="gh-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
       </div>
+    </div>
 
-      <div class="proj">
-        <div class="proj-top">
-          <div class="proj-left"><div class="proj-ico">🔌</div><div><div class="proj-name">USB Hardware Tester</div><div class="proj-sub">Portable laptop hardware diagnostic tool</div></div></div>
-          <div class="proj-badge">Hardware · Portable · Diagnostics</div>
+    <div class="pc">
+      <div>
+        <div class="pt"><div class="p-ico">🖥️</div><div><div class="p-title">Laptop Price Scraper</div><div class="p-sub">Real freelance project — Sri Lankan electronics market</div></div></div>
+        <p class="p-desc">Python automation tool that visits Sri Lankan electronics sites daily, extracts pricing data, and delivers a clean Excel report automatically. Built for a real laptop retailer client.</p>
+        <div class="p-feats">
+          <div class="pf">Scrapes 160+ laptops using requests + BeautifulSoup</div>
+          <div class="pf">Handles JS-rendered sites via Selenium + ChromeDriver</div>
+          <div class="pf">Exports styled Excel file ready for business use</div>
+          <div class="pf">Packaged as standalone .EXE</div>
         </div>
-        <div class="proj-body">
-          <p class="proj-desc">A portable Python tool to diagnose USB ports and connected hardware on laptops. Built for field technicians and helpdesk engineers who need fast, reliable hardware verification without heavy diagnostic suites.</p>
-          <div class="proj-foot">
-            <div class="tags"><span class="tag">Python</span><span class="tag">Hardware</span><span class="tag">USB</span><span class="tag">Diagnostics</span><span class="tag">Portable</span></div>
-            <a href="https://github.com/Dinushka110797/USB_Hardware_Tester" target="_blank" class="gh-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>View on GitHub</a>
-          </div>
-        </div>
+        <div class="p-stack"><span class="tag">Python</span><span class="tag">Selenium</span><span class="tag">BeautifulSoup</span><span class="tag">pandas</span><span class="tag">openpyxl</span><span class="tag">PyInstaller</span></div>
       </div>
-
-      <div class="proj">
-        <div class="proj-top">
-          <div class="proj-left"><div class="proj-ico">🪟</div><div><div class="proj-name">Windows Automation Script</div><div class="proj-sub">Hands-free Windows installation via Autounattend XML</div></div></div>
-          <div class="proj-badge">Sysadmin · Windows · Automation</div>
-        </div>
-        <div class="proj-body">
-          <p class="proj-desc">Autounattend XML configuration for fully automated, hands-free Windows installation in Legacy/MBR environments. Built for IT departments and technicians who deploy Windows at scale without manual interaction.</p>
-          <div class="proj-foot">
-            <div class="tags"><span class="tag">XML</span><span class="tag">Windows</span><span class="tag">Automation</span><span class="tag">Sysadmin</span><span class="tag">MBR</span></div>
-            <a href="https://github.com/Dinushka110797" target="_blank" class="gh-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>View on GitHub</a>
-          </div>
-        </div>
+      <div class="p-side">
+        <span class="badge green">Freelance</span>
+        <a href="https://github.com/Dinushka110797/Laptop-price-scraper" target="_blank" class="gh-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
       </div>
+    </div>
 
+    <div class="pc">
+      <div>
+        <div class="pt"><div class="p-ico">🛍️</div><div><div class="p-title">Gadget Kade</div><div class="p-sub">Full-stack Django e-commerce web app</div></div></div>
+        <p class="p-desc">A fully functional Django web application for an electronics store, with product listings, user authentication, and a complete admin panel for inventory management.</p>
+        <div class="p-stack"><span class="tag">Python</span><span class="tag">Django</span><span class="tag">HTML/CSS</span><span class="tag">Admin Panel</span><span class="tag">SQLite</span></div>
+      </div>
+      <div class="p-side">
+        <span class="badge">Full Stack</span>
+        <a href="https://github.com/Dinushka110797/gadget-kade" target="_blank" class="gh-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
+      </div>
+    </div>
+
+    <div class="pc">
+      <div>
+        <div class="pt"><div class="p-ico">🔌</div><div><div class="p-title">USB Hardware Tester</div><div class="p-sub">Portable laptop hardware diagnostic tool</div></div></div>
+        <p class="p-desc">Portable Python tool to diagnose USB ports and connected hardware on laptops. Built for field technicians who need fast, reliable hardware verification on-site.</p>
+        <div class="p-stack"><span class="tag">Python</span><span class="tag">Hardware</span><span class="tag">Diagnostics</span><span class="tag">CLI</span></div>
+      </div>
+      <div class="p-side">
+        <span class="badge">Portable Tool</span>
+        <a href="https://github.com/Dinushka110797/USB_Hardware_Tester" target="_blank" class="gh-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
+      </div>
+    </div>
+
+    <div class="pc">
+      <div>
+        <div class="pt"><div class="p-ico">🪟</div><div><div class="p-title">Windows Automation Script</div><div class="p-sub">Hands-free Windows installation</div></div></div>
+        <p class="p-desc">Autounattend XML configuration for fully automated, hands-free Windows installation in Legacy/MBR environments. Saves hours of manual setup for repeated deployments.</p>
+        <div class="p-stack"><span class="tag">XML</span><span class="tag">Windows</span><span class="tag">Automation</span><span class="tag">MBR/Legacy</span></div>
+      </div>
+      <div class="p-side">
+        <span class="badge">Automation</span>
+        <a href="https://github.com/Dinushka110797" target="_blank" class="gh-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg> GitHub</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+</div>
+
+<hr class="sec-div">
+
+<!-- CONTACT -->
+<div class="wrap">
+<section id="contact">
+  <div class="contact-wrap">
+    <h3>Let's connect 👋</h3>
+    <p>Open to opportunities, freelance projects, and interesting collaborations. I reply fast.</p>
+    <div class="clinks">
+      <a href="mailto:lakshandinushka929@gmail.com" class="cbtn primary">✉️ Email Me</a>
+      <a href="https://github.com/Dinushka110797" target="_blank" class="cbtn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="https://www.linkedin.com/in/dinushka-silva-8302b22a7/" target="_blank" class="cbtn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
     </div>
   </div>
 </section>
-
-<!-- CONTACT -->
-<div class="contact-sec">
-  <div class="wrap">
-    <div class="contact-inner">
-      <div class="sec-label">Contact</div>
-      <div class="sec-title">Let's work together</div>
-      <p class="sec-sub">Open to new opportunities, freelance projects, and interesting collaborations. I respond fast.</p>
-      <div class="c-links">
-        <a href="mailto:lakshandinushka929@gmail.com" class="c-btn"><span style="font-size:15px;">✉️</span>lakshandinushka929@gmail.com</a>
-        <a href="https://github.com/Dinushka110797" target="_blank" class="c-btn">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-          GitHub
-        </a>
-        <a href="https://www.linkedin.com/in/dinushka-silva-8302b22a7/" target="_blank" class="c-btn">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          LinkedIn
-        </a>
-      </div>
-    </div>
-  </div>
 </div>
 
 <footer>
-  <span>Built by Dinushka Silva · 2026</span>
-  <div class="foot-links">
-    <a href="https://github.com/Dinushka110797" target="_blank">GitHub</a>
-    <a href="https://www.linkedin.com/in/dinushka-silva-8302b22a7/" target="_blank">LinkedIn</a>
-    <a href="mailto:lakshandinushka929@gmail.com">Email</a>
-  </div>
+  Designed & built by <strong>S. Dinushka L.W. Silva</strong> &nbsp;·&nbsp; Python Developer & QA Automator &nbsp;·&nbsp; 2026
 </footer>
+
+<script>
+  // Photo upload
+  function loadPhoto(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = document.getElementById('profilePhoto');
+      const placeholder = document.getElementById('photoPlaceholder');
+      img.src = e.target.result;
+      img.style.display = 'block';
+      placeholder.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Mouse glow on project cards
+  document.querySelectorAll('.pc').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+      const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+      card.style.setProperty('--mx', x + '%');
+      card.style.setProperty('--my', y + '%');
+    });
+  });
+
+  // Smooth nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--text)' : '';
+    });
+  });
+</script>
 
 </body>
 </html>
